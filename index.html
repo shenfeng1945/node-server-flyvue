@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>upload</title>
+</head>
+
+<body>
+    <div>
+        <input type="file" name="avatar">
+    </div>
+    <div>
+        <input id="submit" type="submit" value="保存">
+    </div>
+</body>
+<script>
+ submit.addEventListener('click', () => {
+   const file = document.querySelector('input[name="avatar"]');
+   let formData = new FormData()
+   formData.append('avatar', file.files[0])
+   let xhr = new XMLHttpRequest();
+   xhr.open('POST', 'http://localhost:3000/upload')
+   xhr.onload = function(){
+      const path = `http://localhost:3000/preview/${JSON.parse(xhr.response).key}`;
+      let img = document.createElement('img');
+      img.setAttribute('src', path);
+      document.body.appendChild(img);
+   }
+   xhr.send(formData);
+ })
+</script>
+
+</html>
