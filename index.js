@@ -21,7 +21,9 @@ app.get('/preview/:key', cors(), (req, res) => {
             'Content-Type': 'image/jepg'
         }
     },(error) => {
-        console.log(error)
+        if(error){
+            console.log(error)
+        }
     })
 })
 
