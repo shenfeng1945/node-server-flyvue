@@ -5,12 +5,15 @@ const upload = multer({ dest: 'uploads' })
 
 const app = express();
 
+app.get('/', (req,res) =>{
+    res.send('hello world')
+})
 app.options('/upload',cors());
-app.post('/upload', cors(), upload.single('avatar'), (req, res, next) => {
+app.post('/upload', cors(), upload.single('avatar'), (req, res) => {
     res.json({key: req.file.filename})
 })
 
-app.get('/preview/:key', cors(), (req, res, next) => {
+app.get('/preview/:key', cors(), (req, res) => {
     let { key } = req.params;
     res.sendFile(`uploads/${key}`,{
         root: __dirname,
@@ -18,10 +21,10 @@ app.get('/preview/:key', cors(), (req, res, next) => {
             'Content-Type': 'image/jepg'
         }
     },(error) => {
-        res.status(404).send('Not Found')
+        console.log(error)
     })
 })
 
 app.listen( process.env.PORT || 3000 ,function(){
-    console.log('APP listening on port' + ' ' + process.env.PORT || 3000)
+    console.log('APP listening on port' + ' ' + (process.env.PORT || 3000))
 })
